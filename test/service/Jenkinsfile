@@ -14,8 +14,6 @@ pipeline {
             steps {
                 println("github-file-test")
                 callTest()
-                def response = sh(script: "pwd", returnStdout: true).trim()
-                println(response as String)
             }
         }
     }
