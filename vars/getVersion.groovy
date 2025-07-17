@@ -18,7 +18,7 @@ def call(String repositoryName) {
         } 
     }
 
-    if (containsKey(repositoryName)) {
+    if (versionObj.containsKey(repositoryName)) {
         return versionObj[repositoryName]
     }
 
