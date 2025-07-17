@@ -9,7 +9,9 @@ pipeline {
     stages {
 
         stage('test') {
-            println("github-file-test")
+            steps {
+                println("github-file-test")
+            }
         }
     }
 }
