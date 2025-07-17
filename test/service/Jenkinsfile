@@ -1,6 +1,6 @@
 import groovy.json.JsonSlurper
 
-@Library('common-lib') _
+@Library('common-lib@main') _
 
 pipeline {
     agent any
