@@ -1,0 +1,15 @@
+import groovy.json.JsonSlurper
+
+pipeline {
+    agent any
+
+    environment {
+    }
+
+    stages {
+
+        stage('test') {
+            println("github-file-test")
+        }
+    }
+}
