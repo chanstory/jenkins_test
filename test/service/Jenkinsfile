@@ -13,7 +13,8 @@ pipeline {
         stage('test') {
             steps {
                 println("github-file-test")
-                callTest()
+                def version = getVersion("test")
+                println(version)
             }
         }
     }
