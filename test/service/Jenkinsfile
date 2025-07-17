@@ -1,5 +1,7 @@
 import groovy.json.JsonSlurper
 
+@Library('my-common-library@main') _
+
 pipeline {
     agent any
 
@@ -12,6 +14,7 @@ pipeline {
         stage('test') {
             steps {
                 println("github-file-test")
+                callTest()
             }
         }
     }
