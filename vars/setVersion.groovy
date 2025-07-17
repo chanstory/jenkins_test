@@ -1,26 +1,30 @@
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 import java.io.File
 
-// 동일한 resourceName 의 JOB이 동시에 실행되지 않음을 가정하고 read 하는 함수에는 lock을 걸지 않음
-def call(String repositoryName) {
-    def filePath = "data_files/versions"
-    def file = new File(filePath)
+def call(String repositoryName, String version) {
+    lock(resource: "lock-version") {
+        def filePath = "data_files/versions"
+        def file = new File(filePath)
 
-    def versionObj = {}
-    if (file.exists()) {
         try {
-            def content = file.text.trim()
-            def slurper = new JsonSlurper()
-            versionObj =  slurper.parseText(content)
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs()
+            }
+
+            def versionObj = {}
+            if (file.exists()) {
+                def content = file.text.trim()
+                def slurper = new JsonSlurper()
+                versionObj =  slurper.parseText(content)
+            }
+
+            versionObj[repositoryName] = version
+            def jsonStr = JsonOutput.toJson(versionObj)
+            writeFile(file: filePath, text: jsonStr)
         } catch (Exception e) {
-            echo "${filePath}: file format is not json"
+            echo "error cause write version file. ${repositoryName}, ${version}"
             throw e
-        } 
+        }
     }
-
-    if (containsKey(repositoryName)) {
-        return versionObj[repositoryName]
-    }
-
-    return ""
 }
